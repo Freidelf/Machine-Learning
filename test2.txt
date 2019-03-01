@@ -1,0 +1,1 @@
+Detta är den andra filen som jag lägger till i min nya Git Repositiory.
