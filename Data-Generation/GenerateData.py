@@ -9,21 +9,18 @@ def gaussianData(poolSize,
     variables = len(mean)
     std = np.eye(variables)
     meanPool = np.random.multivariate_normal(mean,std,poolSize)
-    print(meanPool)
-    ObsList = [[0]*variables] * Observations
+    ObsList = np.ndarray(shape = (Observations, variables*2))    
     for i in range(Observations):
-        if poolSize > 1:
-            r = np.random.randint(0,poolSize)
-        else:
-            r = 0
-        ObsList[i] = (np.random.multivariate_normal(
+        r = np.random.randint(0,poolSize)
+        temp = meanPool[r].tolist()
+        temp.extend(np.random.multivariate_normal(
             meanPool[r],
-            np.multiply(std,0.2)),
-                      meanPool[r])
+            np.multiply(std,0.2)).tolist())
+        ObsList[i,:] = temp
     return ObsList
 
 def main():
-    print(gaussianData(3,10,[1,0]))
+    print(gaussianData(2,5,[1,0,0,0]))
 
 if __name__ == '__main__':
     main()
