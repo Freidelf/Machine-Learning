@@ -61,14 +61,24 @@ def oneNearestPoint(root,point,depth = 0):
                               best)
     return best
 
+def pltcolor(lst):
+    cols=[]
+    for l in lst:
+        if l==0:
+            cols.append([0.53,0.81,1])
+        else:
+            cols.append([1,0.73,0.06])
+    return cols
+
+
 
 def main():
     obs1 = GenerateData.gaussianData(10,100,[0,1],0)[0]
     obs2 = GenerateData.gaussianData(10,100,[1,0],1)[0]
-    min1 = min(min(obs1[:,0]),min(obs2[:,0]))
-    max1 = max(max(obs1[:,0]),max(obs2[:,0]))
-    min2 = min(min(obs1[:,1]),min(obs2[:,1]))
-    max2 = max(max(obs1[:,1]),max(obs2[:,1]))
+    min1 = min(min(obs1[:,0]),min(obs2[:,0]))*1.05
+    max1 = max(max(obs1[:,0]),max(obs2[:,0]))*1.05
+    min2 = min(min(obs1[:,1]),min(obs2[:,1]))*1.05
+    max2 = max(max(obs1[:,1]),max(obs2[:,1]))*1.05
     obs11 = obs1.tolist()
     obs22 = obs2.tolist()
     X = []
@@ -83,9 +93,15 @@ def main():
         point = (fillData[i,0], fillData[i,1])
         t = oneNearestPoint(tree,point)
         fillData[i,2] = t[2]
-    plt.plot(obs1[:,0],obs1[:,1], 'ro')
-    plt.plot(obs2[:,0],obs2[:,1], 'bo')
-    plt.scatter(fillData[:,0],fillData[:,1], c = fillData[:,2], s = 0.3)
+    classLine = GenerateData.classificationLine2D(fillData)
+    print(classLine)
+    cols=pltcolor(fillData[:,2])
+    plt.plot(obs1[:,0],obs1[:,1], 'o',color=[0.53,0.81,1],fillstyle='none')
+    plt.plot(obs2[:,0],obs2[:,1], 'o',color=[1,0.73,0.06],fillstyle='none')
+    plt.scatter(fillData[:,0],fillData[:,1], c = cols, s = 0.3)
+    plt.scatter(classLine[:,0],classLine[:,1])
+    plt.xlim(min1,max1)
+    plt.ylim(min2,max2)
     plt.show()
 if __name__ == '__main__':
     main()

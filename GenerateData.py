@@ -31,7 +31,21 @@ def domainFillData2D(ranges):
         outData[range(i*100,(i+1)*100),1] = np.linspace(X2_vals[i],X2_vals[i],100)
     return outData
 
-        
+def classificationLine2D(data):
+    diff = np.ndarray(shape=(10000,3))
+    diff[:,0:1] = data[:,0:1]
+    points = []
+    for i in range(9999):
+        diff[i,2] = data[i+1,2]-data[i,2]
+    for i in range(9999):
+        if diff[i,2] is not 0:
+            points.append([diff[i,0],diff[i,1]])
+    print(diff[:,2])
+    points1 = np.ndarray(shape=(len(points),2))
+    for i in range(len(points)):
+        points1[i,0] = points[i][0]
+        points1[i,1] = points[i][1]
+    return points1
 
 def main():
     a = gaussianData(2,5,[1,0],1)
