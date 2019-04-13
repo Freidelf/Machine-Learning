@@ -32,16 +32,26 @@ def domainFillData2D(ranges):
     return outData
 
 def classificationLine2D(data):
+    data_ = data[:,2]
     diff = np.ndarray(shape=(10000,3))
-    diff[:,0:1] = data[:,0:1]
     points = []
+    diff_ = np.ndarray(shape=(10000,1))
+    print(len(data_))
     for i in range(9999):
-        diff[i,2] = data[i+1,2]-data[i,2]
+        diff_[i] = data_[i+1]-data_[i]
     for i in range(9999):
-        if diff[i,2] is not 0:
-            points.append([diff[i,0],diff[i,1]])
-    print(diff[:,2])
+        if diff_[i] >= 0.5 or diff_[i]<=-0.5:
+            points.append([data[i,0],data[i,1]])
+    print(max(diff_))
+    print(min(diff_))
+#
+#        if data[i,2] is not 0:
+#            print("ett")
+#        else:
+#            print("noll")
+        
     points1 = np.ndarray(shape=(len(points),2))
+    
     for i in range(len(points)):
         points1[i,0] = points[i][0]
         points1[i,1] = points[i][1]
@@ -55,5 +65,7 @@ def main():
 
         
 
+
+    
 if __name__ == '__main__':
     main()
